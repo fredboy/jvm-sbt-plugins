@@ -29,6 +29,10 @@ object AndroidNdkPlugin extends AutoPlugin {
     )
   }
 
+  private def removeBreakingLibs(flags: Seq[String]): Seq[String] = {
+    flags.filterNot(flag => flag == "-lpthread" || flag.startsWith("-L"))
+  }
+
   val androidSettings = Seq(
     // Hack to make "publishLocal" build the native library. Since tests don't run when building for Android,
     // there is otherwise no reason to build the library.
@@ -54,9 +58,8 @@ object AndroidNdkPlugin extends AutoPlugin {
     ldConfigFlags += "-Wl,-z,defs",
     ldConfigFlags += "-latomic",
 
-    ldConfigFlags <<= ldConfigFlags map {
-      _.filterNot(flag => flag == "-lpthread" || flag.startsWith("-L"))
-    }
+    ldConfigFlags := removeBreakingLibs(ldConfigFlags.value),
+    libLdConfigFlags := removeBreakingLibs(libLdConfigFlags.value)
   )
 
   override def projectSettings: Seq[Setting[_]] = androidSettings
