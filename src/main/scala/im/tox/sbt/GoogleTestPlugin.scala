@@ -20,12 +20,12 @@ object GoogleTestPlugin extends AutoPlugin {
 
   val gtestSettings = Seq(
     googleTestRepoUrl := url("https://github.com/google/googletest"),
-    googleTestSource <<= sourceManaged { _ / "googletest" },
+    googleTestSource := sourceManaged.value / "googletest",
 
-    managedSourceDirectories <+= googleTestSource { _ / "googletest" },
-    managedSourceDirectories <+= googleTestSource { _ / "googletest/include" },
+    managedSourceDirectories += googleTestSource.value / "googletest",
+    managedSourceDirectories += googleTestSource.value / "googletest/include",
 
-    googleTestDownload <<= Def.task {
+    googleTestDownload := {
       if (!crossCompiling.value && !googleTestSource.value.exists) {
         val log = streams.value.log
 
@@ -37,7 +37,7 @@ object GoogleTestPlugin extends AutoPlugin {
       (googleTestSource.value / "googletest/src/gtest-all.cc").get
     },
 
-    sourceGenerators <+= googleTestDownload
+    sourceGenerators += googleTestDownload.taskValue
   )
 
   override def projectSettings: Seq[Setting[_]] = inConfig(NativeTest)(gtestSettings)

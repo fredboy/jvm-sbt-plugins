@@ -30,7 +30,7 @@ object JavahPlugin extends AutoPlugin {
       NativeClassFinder(streams.value.log, classes)
     },
 
-    javah <<= Def.task {
+    javah := {
       val log = streams.value.log
 
       val classpath = (
@@ -56,7 +56,7 @@ object JavahPlugin extends AutoPlugin {
       }
     },
 
-    sourceGenerators <+= javah
+    sourceGenerators += javah.taskValue
   )
 
   override def projectSettings: Seq[Setting[_]] = inConfig(NativeCompile)(settings)

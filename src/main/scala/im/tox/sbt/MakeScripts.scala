@@ -39,7 +39,7 @@ object MakeScripts extends AutoPlugin {
     for (main <- mains) {
       val contents = template.format(
         cp.files.get.mkString("\",\n  \""),
-        ("-Xmx1g" +: opts).mkString("\",\n  \""),
+        opts.mkString("\",\n  \""),
         main
       )
       val out = base / "bin" / classBaseName(main)
@@ -49,12 +49,12 @@ object MakeScripts extends AutoPlugin {
   }
 
   override val projectSettings: Seq[Setting[_]] = {
-    makeScripts <<= (
-      baseDirectory,
-      javaOptions in Test,
-      fullClasspath in Test,
-      discoveredMainClasses in Test
-    ) map makeScriptsTask
+    makeScripts := makeScriptsTask(
+      baseDirectory.value,
+      (javaOptions in Test).value,
+      (fullClasspath in Test).value,
+      (discoveredMainClasses in Test).value
+    )
   }
 
 }

@@ -34,13 +34,13 @@ object NativeTestPlugin extends AutoPlugin {
       }
     },
 
-    nativeLink <<= (
-      streams,
-      cxx, ldConfigFlags,
-      nativeCompile,
-      nativeLink in NativeCompile,
-      nativeProgramOutput
-    ) map NativeCompilation.linkProgram
+    nativeLink := NativeCompilation.linkProgram(
+      streams.value,
+      cxx.value, ldConfigFlags.value ++ ldEnvFlags.value ++ libLdConfigFlags.value,
+      nativeCompile.value,
+      (nativeLink in NativeCompile).value,
+      nativeProgramOutput.value
+    )
   )
 
   val running = Seq(
@@ -49,7 +49,6 @@ object NativeTestPlugin extends AutoPlugin {
       "-Xmx1g",
       "-Xbatch",
       "-Xcheck:jni",
-      "-Xfuture",
       "-Djava.library.path=" + crossTarget.value
     )
   )

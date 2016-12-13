@@ -42,15 +42,15 @@ object PkgConfigPlugin extends AutoPlugin {
     pkgConfigCflags := pkgConfig(streams.value.log, nativeLibraryDependencies.value, pkgConfigPath.value, "cflags"),
     pkgConfigLibs := pkgConfig(streams.value.log, nativeLibraryDependencies.value, pkgConfigPath.value, "libs"),
 
-    libCommonConfigFlags <++= pkgConfigCflags,
-    libLdConfigFlags <++= pkgConfigLibs
+    libCommonConfigFlags ++= pkgConfigCflags.value,
+    libLdConfigFlags ++= pkgConfigLibs.value
   )
 
   override def projectSettings: Seq[Setting[_]] =
     pkgconfigConfig ++ Seq(
       nativeLibraryDependencies := Nil,
-      nativeLibraryDependencies in NativeCompile <<= nativeLibraryDependencies,
-      nativeLibraryDependencies in NativeTest <<= nativeLibraryDependencies
+      nativeLibraryDependencies in NativeCompile := nativeLibraryDependencies.value,
+      nativeLibraryDependencies in NativeTest := nativeLibraryDependencies.value
     )
 
 }

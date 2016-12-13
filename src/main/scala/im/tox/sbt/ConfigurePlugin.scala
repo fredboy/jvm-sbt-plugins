@@ -174,18 +174,18 @@ object ConfigurePlugin extends AutoPlugin {
       cxxFeatureFlags.value
     ).flatten,
 
-    commonConfigFlags in NativeCompile <<= commonConfigFlags in Default,
-    libCommonConfigFlags in NativeCompile <<= libCommonConfigFlags in Default,
-    cConfigFlags in NativeCompile <<= cConfigFlags in Default,
-    cxxConfigFlags in NativeCompile <<= cxxConfigFlags in Default,
-    ldConfigFlags in NativeCompile <<= ldConfigFlags in Default,
+    commonConfigFlags in NativeCompile := (commonConfigFlags in Default).value,
+    libCommonConfigFlags in NativeCompile := (libCommonConfigFlags in Default).value,
+    cConfigFlags in NativeCompile := (cConfigFlags in Default).value,
+    cxxConfigFlags in NativeCompile := (cxxConfigFlags in Default).value,
+    ldConfigFlags in NativeCompile := (ldConfigFlags in Default).value,
 
-    commonConfigFlags in NativeTest <<= commonConfigFlags in NativeCompile,
-    libCommonConfigFlags in NativeTest <<= libCommonConfigFlags in NativeCompile,
-    cConfigFlags in NativeTest <<= cConfigFlags in NativeCompile,
-    cxxConfigFlags in NativeTest <<= cxxConfigFlags in NativeCompile,
-    ldConfigFlags in NativeTest <<= ldConfigFlags in NativeCompile,
-    libLdConfigFlags in NativeTest <<= libLdConfigFlags in NativeCompile
+    commonConfigFlags in NativeTest := (commonConfigFlags in NativeCompile).value,
+    libCommonConfigFlags in NativeTest := (libCommonConfigFlags in NativeCompile).value,
+    cConfigFlags in NativeTest := (cConfigFlags in NativeCompile).value,
+    cxxConfigFlags in NativeTest := (cxxConfigFlags in NativeCompile).value,
+    ldConfigFlags in NativeTest := (ldConfigFlags in NativeCompile).value,
+    libLdConfigFlags in NativeTest := (libLdConfigFlags in NativeCompile).value
   )
 
   override def projectSettings: Seq[Setting[_]] =

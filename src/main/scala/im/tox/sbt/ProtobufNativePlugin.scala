@@ -22,15 +22,15 @@ object ProtobufNativePlugin extends AutoPlugin {
   import Keys._
 
   override def projectSettings: Seq[Setting[_]] = inConfig(protobufConfig)(Seq(
-    generateCpp <<= (
-      streams,
-      runProtoc,
-      sourceManaged in NativeCompile,
-      sourceDirectory,
-      crossPlatform in NativeCompile
-    ) map sourceGeneratorTask,
+    generateCpp := sourceGeneratorTask(
+      streams.value,
+      runProtoc.value,
+      (sourceManaged in NativeCompile).value,
+      sourceDirectory.value,
+      (crossPlatform in NativeCompile).value
+    ),
 
-    sourceGenerators in NativeCompile <+= generateCpp
+    sourceGenerators in NativeCompile += generateCpp.taskValue
   ))
 
   private def sourceGeneratorTask(

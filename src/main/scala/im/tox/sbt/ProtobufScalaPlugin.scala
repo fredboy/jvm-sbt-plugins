@@ -12,12 +12,12 @@ object ProtobufScalaPlugin extends AutoPlugin {
   override def requires: Plugins = IvyPlugin && JvmPlugin
 
   override def projectSettings: Seq[Setting[_]] = protobufSettings ++ inConfig(protobufConfig)(Seq(
-    runProtoc in protobufConfig := Def.task { (args: Seq[String]) =>
+    runProtoc in protobufConfig := { (args: Seq[String]) =>
       Protoc.runProtoc(args.toArray)
-    }.value,
+    },
 
-    javaSource <<= (sourceManaged in Compile),
-    scalaSource <<= (sourceManaged in Compile),
+    javaSource := (sourceManaged in Compile).value,
+    scalaSource := (sourceManaged in Compile).value,
 
     version := "3.0.0",
     javaConversions := true,

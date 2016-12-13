@@ -26,13 +26,6 @@ object NativeCompilePlugin extends AutoPlugin {
 
   import Keys._
 
-  def configSrcSub(key: SettingKey[File]): Def.Initialize[File] = {
-    (key in ThisScope.copy(config = Global), configuration) { (src, conf) =>
-      val configName = conf.extendsConfigs.headOption.fold(conf.name)(_.name)
-      src / Defaults.nameForSrc(configName)
-    }
-  }
-
   def mapLibraryName(platform: String, name: String): String = {
     if (platform.contains("darwin")) {
       s"lib$name.dylib"
@@ -57,24 +50,29 @@ object NativeCompilePlugin extends AutoPlugin {
   }
 
   val targetConfigPaths = Seq(
-    crossTarget <<= (target, crossPlatform) { _ / _ },
-    objectDirectory <<= crossTarget { _ / "objects" },
+    crossTarget := target.value / crossPlatform.value,
+    objectDirectory := crossTarget.value / "objects",
     nativeLibraryOutput := crossTarget.value / mapLibraryName(crossPlatform.value, name.value)
   )
 
   val sourceConfigPaths = Seq(
     includeFilter in unmanagedSources := NativeCompilation.sourceFileFilter | NativeCompilation.headerFileFilter,
 
-    sourceDirectory <<= configSrcSub(sourceDirectory),
-    cppSource <<= sourceDirectory { _ / "cpp" },
+    sourceDirectory := {
+      val src = (sourceDirectory in ThisScope.copy(config = Global)).value
+      val conf = configuration.value
+      val configName = conf.extendsConfigs.headOption.fold(conf.name)(_.name)
+      src / Defaults.nameForSrc(configName)
+    },
+    cppSource := sourceDirectory.value / "cpp",
     unmanagedSourceDirectories := Seq(cppSource.value),
-    unmanagedSources <<= Defaults.collectFiles(unmanagedSourceDirectories, includeFilter in unmanagedSources, excludeFilter in unmanagedSources),
-    watchSources in Defaults.ConfigGlobal <++= unmanagedSources,
+    unmanagedSources := Defaults.collectFiles(unmanagedSourceDirectories, includeFilter in unmanagedSources, excludeFilter in unmanagedSources).value,
+    watchSources in Defaults.ConfigGlobal ++= unmanagedSources.value,
     managedSourceDirectories := Seq(sourceManaged.value),
-    managedSources <<= Defaults.generate(sourceGenerators),
+    managedSources := Defaults.generate(sourceGenerators).value,
     sourceGenerators := Nil,
-    sourceDirectories <<= Classpaths.concatSettings(unmanagedSourceDirectories, managedSourceDirectories),
-    sources <<= Classpaths.concat(unmanagedSources, managedSources)
+    sourceDirectories := Classpaths.concatSettings(unmanagedSourceDirectories, managedSourceDirectories).value,
+    sources := Classpaths.concat(unmanagedSources, managedSources).value
   )
 
   val jdkHome = file(sys.props("java.home")).getParentFile
@@ -94,7 +92,7 @@ object NativeCompilePlugin extends AutoPlugin {
   )
 
   val compilation = Seq(
-    nativeCompile <<= Def.taskDyn {
+    nativeCompile := Def.taskDyn {
       NativeCompilation.compileSources(
         streams.value.log, streams.value.cacheDirectory / "native",
         NativeCompilationSettings(cc.value, cFlags.value),
@@ -103,7 +101,7 @@ object NativeCompilePlugin extends AutoPlugin {
         objectDirectory.value,
         sources.value
       )
-    }
+    }.value
   )
 
   val allExceptLinking =
@@ -114,7 +112,7 @@ object NativeCompilePlugin extends AutoPlugin {
       compilation
 
   val linking = Seq(
-    nativeLink <<= Def.task {
+    nativeLink := {
       NativeCompilation.linkSharedLibrary(
         streams.value,
         cxx.value, ldConfigFlags.value ++ ldEnvFlags.value ++ libLdConfigFlags.value,
@@ -128,7 +126,7 @@ object NativeCompilePlugin extends AutoPlugin {
 
   override def projectSettings: Seq[Setting[_]] = inConfig(NativeCompile)(nativeSettings) ++ Seq(
     hostPlatform := archName + "-" + osName,
-    crossPlatform <<= hostPlatform,
+    crossPlatform := hostPlatform.value,
     crossCompiling := crossPlatform.value != hostPlatform.value
   )
 

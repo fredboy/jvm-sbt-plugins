@@ -36,7 +36,7 @@ object AndroidNdkPlugin extends AutoPlugin {
   val androidSettings = Seq(
     // Hack to make "publishLocal" build the native library. Since tests don't run when building for Android,
     // there is otherwise no reason to build the library.
-    publishLocal <<= publishLocal.dependsOn(nativeLink in NativeCompile),
+    publishLocal := publishLocal.dependsOn(nativeLink in NativeCompile).value,
 
     ndkHome := sys.env.get("ANDROID_NDK_HOME").map(file).filter(_.exists).getOrElse(file(sys.env("HOME")) / "android-ndk"),
     toolchainHome := baseDirectory.value / "toolchains" / crossPlatform.value,
