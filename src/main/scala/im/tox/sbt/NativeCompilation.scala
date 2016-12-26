@@ -72,8 +72,16 @@ object NativeCompilation {
       inStyle = FilesInfo.lastModified,
       outStyle = FilesInfo.exists
     ) { inputs =>
-        Set(doCompile(log, sourceDirectories, objectDirectory, settings)(inputs.head))
-      }(Set(sourceFile)).head
+        Set(doCompile(log, sourceDirectories, objectDirectory, settings)(
+          inputs.headOption match {
+            case None => throw new RuntimeException("no inputs")
+            case Some(i) => i
+          }
+        ))
+      }(Set(sourceFile)).headOption match {
+        case None => throw new RuntimeException("no compiled results")
+        case Some(i) => i
+      }
   }
 
   def compileSources(

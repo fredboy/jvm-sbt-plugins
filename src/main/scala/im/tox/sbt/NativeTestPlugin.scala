@@ -16,12 +16,12 @@ object NativeTestPlugin extends AutoPlugin {
   )
 
   val compilerConfig = Seq(
-    commonConfigFlags ++= (sourceDirectories in NativeCompile).value.map("-I" + _),
+    commonConfigFlags ++= (sourceDirectories in NativeCompile).value.map("-I" + _.toString),
 
     ldConfigFlags ++= Seq(
-      "-Wl,-rpath," + crossTarget.value,
-      "-L" + crossTarget.value,
-      "-l" + name.value
+      s"-Wl,-rpath,${crossTarget.value}",
+      s"-L${crossTarget.value}",
+      s"-l${name.value}"
     )
   )
 
@@ -49,7 +49,7 @@ object NativeTestPlugin extends AutoPlugin {
       "-Xmx1g",
       "-Xbatch",
       "-Xcheck:jni",
-      "-Djava.library.path=" + crossTarget.value
+      "-Djava.library.path=${crossTarget.value}"
     )
   )
 

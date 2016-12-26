@@ -103,7 +103,7 @@ object WartLoader extends AutoPlugin {
         case (cp, customWarts) =>
           customWarts.map { clazz =>
             "-P:wartremover:traverser:" + clazz
-          } :+ "-P:wartremover:cp:" + cp
+          } :+ s"-P:wartremover:cp:$cp"
       }
     },
     wartremoverErrors in (Compile, compile) := Warts.allBut(ignoredCompile: _*),

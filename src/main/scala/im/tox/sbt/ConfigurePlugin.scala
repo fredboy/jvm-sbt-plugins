@@ -95,8 +95,8 @@ object ConfigurePlugin extends AutoPlugin {
       "clang++-3.5"),
 
     jniIncludeFlags := Seq(
-      "-I" + (jdkHome / "include"),
-      "-I" + (jdkHome / "include" / osName)
+      s"-I${jdkHome / "include"}",
+      s"-I${jdkHome / "include" / osName}"
     ),
 
     commonConfigFlags := Nil,

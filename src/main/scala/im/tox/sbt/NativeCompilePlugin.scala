@@ -82,11 +82,11 @@ object NativeCompilePlugin extends AutoPlugin {
   }
 
   val compilerConfig = Seq(
-    commonConfigFlags ++= sourceDirectories.value.map("-I" + _) ++ jniIncludeFlags.value,
+    commonConfigFlags ++= sourceDirectories.value.map("-I" + _.toString) ++ jniIncludeFlags.value,
 
     // Link with version script to avoid exporting unnecessary symbols.
     ldConfigFlags ++= Configure.tryCompile(streams.value.log, cxx.value, {
-      val versionScript = (cppSource.value / ("lib" + name.value + ".ver")).getPath
+      val versionScript = (cppSource.value / s"lib${name.value}.ver").getPath
       Seq(s"-Wl,--version-script,$versionScript")
     })
   )
@@ -125,7 +125,7 @@ object NativeCompilePlugin extends AutoPlugin {
   val nativeSettings = allExceptLinking ++ linking
 
   override def projectSettings: Seq[Setting[_]] = inConfig(NativeCompile)(nativeSettings) ++ Seq(
-    hostPlatform := archName + "-" + osName,
+    hostPlatform := s"$archName-$osName",
     crossPlatform := hostPlatform.value,
     crossCompiling := crossPlatform.value != hostPlatform.value
   )
