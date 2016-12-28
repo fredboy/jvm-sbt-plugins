@@ -31,7 +31,14 @@ object ReadmeDependencies extends AutoPlugin {
     depList: Set[String]
   ): ListMap[String, Seq[String]] = {
     val markdownList = Seq("", comment, "") ++ depList.map("- " + _).toSeq.sorted :+ ""
-    sections.updated(s"## Dependencies: $section", markdownList)
+    sections.map {
+      case (k, v) =>
+        if (k == s"## Dependencies: $section") {
+          k -> markdownList
+        } else {
+          k -> v
+        }
+    }
   }
 
   private def updateReadmeDependenciesTask(
@@ -48,7 +55,7 @@ object ReadmeDependencies extends AutoPlugin {
           } else {
             res.lastOption match {
               case None =>
-                res + (line -> Nil)
+                res.updated(line, Nil)
               case Some((k, buf)) =>
                 res.updated(k, buf :+ line)
             }
