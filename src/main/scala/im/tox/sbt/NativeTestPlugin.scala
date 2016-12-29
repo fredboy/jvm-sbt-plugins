@@ -49,7 +49,7 @@ object NativeTestPlugin extends AutoPlugin {
       "-Xmx1g",
       "-Xbatch",
       "-Xcheck:jni",
-      "-Djava.library.path=${crossTarget.value}"
+      s"-Djava.library.path=${crossTarget.value}"
     )
   )
 
