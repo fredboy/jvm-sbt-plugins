@@ -4,3 +4,10 @@ cache:
   directories:
     - $HOME/.ivy2
     - $HOME/.sbt
+
+branches:
+  only:
+  - master
+
+git:
+  depth: 1
