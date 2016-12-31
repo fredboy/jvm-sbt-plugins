@@ -14,8 +14,8 @@ object PkgConfigPlugin extends AutoPlugin {
     val pkgConfigPath = settingKey[String]("Search path for pkg-config.")
     val nativeLibraryDependencies = settingKey[Seq[ModuleID]]("Native library dependencies (pkg-config).")
 
-    val pkgConfigCflags = taskKey[Seq[String]]("???")
-    val pkgConfigLibs = taskKey[Seq[String]]("???")
+    val pkgConfigCflags = taskKey[Seq[String]]("CFLAGS from pkg-config --cflags")
+    val pkgConfigLibs = taskKey[Seq[String]]("LDFLAGS from pkg-config --libs")
   }
 
   import autoImport._
@@ -39,7 +39,10 @@ object PkgConfigPlugin extends AutoPlugin {
   val pkgconfigConfig = Seq(
     pkgConfigPath := sys.env.getOrElse("PKG_CONFIG_PATH", ""),
 
-    pkgConfigCflags := pkgConfig(streams.value.log, nativeLibraryDependencies.value, pkgConfigPath.value, "cflags"),
+    pkgConfigCflags := {
+      val cflags = pkgConfig(streams.value.log, nativeLibraryDependencies.value, pkgConfigPath.value, "cflags")
+      cflags ++ cflags.filter(_.startsWith("-I")).map(_.replace("-I", "-isystem"))
+    },
     pkgConfigLibs := pkgConfig(streams.value.log, nativeLibraryDependencies.value, pkgConfigPath.value, "libs"),
 
     libCommonConfigFlags ++= pkgConfigCflags.value,
