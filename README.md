@@ -18,7 +18,7 @@ To build the package itself, the following dependencies are required:
 - com.github.mdr:ascii-graphs_2.10:0.0.3
 - com.github.os72:protoc-jar:3.5.0
 - com.google.guava:guava:19.0
-- com.google.protobuf:protobuf-java:3.1.0
+- com.google.protobuf:protobuf-java:3.5.0
 - com.googlecode.javaewah:JavaEWAH:0.7.9
 - com.jcraft:jsch:0.1.50
 - com.lihaoyi:fastparse-utils_2.10:0.3.7
