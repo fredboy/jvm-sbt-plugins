@@ -23,7 +23,7 @@ final class RedundantValChecker extends AstChecker("redundant.val") {
             param <- VisitorHelper.getAll[Param](tmplDef.paramClausesOpt)
             if (param.valOrVarOpt match {
               case Some(Token(TokenType("VAL", _), _, _, _)) => true
-              case _ => false
+              case _                                         => false
             })
           } yield {
             PositionError(param.firstToken.offset)
@@ -38,6 +38,7 @@ final class RedundantValChecker extends AstChecker("redundant.val") {
     hasMarkerToken(tmplDef, "CASE") && hasMarkerToken(tmplDef, "CLASS")
   }
 
+  @SuppressWarnings(Array("org.wartremover.warts.Equals"))
   private def hasMarkerToken(definition: TmplDef, tokenType: String): Boolean = {
     definition.markerTokens.exists { token => token.tokenType.name == tokenType }
   }

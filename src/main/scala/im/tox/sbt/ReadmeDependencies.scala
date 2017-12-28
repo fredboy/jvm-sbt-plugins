@@ -19,7 +19,7 @@ object ReadmeDependencies extends AutoPlugin {
   override def requires: Plugins = DependencyGraphPlugin
 
   object Keys {
-    val updateReadmeDependencies = TaskKey[Unit]("updateReadmeDependencies")
+    val updateReadmeDependencies: TaskKey[Unit] = TaskKey[Unit]("updateReadmeDependencies")
   }
 
   import Keys._

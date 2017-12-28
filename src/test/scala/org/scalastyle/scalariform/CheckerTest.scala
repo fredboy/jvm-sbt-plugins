@@ -42,7 +42,7 @@ abstract class CheckerTest(checker: Checker[_] { val errorKey: String }) extends
       case (line, lineNumber) =>
         assert(line.indexOf(marker) == line.lastIndexOf(marker), "Currently only one error per line is supported")
         line.indexOf(marker) match {
-          case -1 => Nil
+          case -1                => Nil
           case columnNumber: Int => List(columnError(lineNumber + 1, columnNumber))
         }
     }.toSeq

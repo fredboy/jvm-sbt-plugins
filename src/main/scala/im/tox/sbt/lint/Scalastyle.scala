@@ -1,6 +1,8 @@
 package im.tox.sbt.lint
 
-import org.scalastyle.sbt.ScalastylePlugin.scalastyleConfigUrl
+import org.scalastyle.sbt.ScalastylePlugin.autoImport.scalastyleConfigUrl
+import scalariform.formatter.preferences._
+import com.typesafe.sbt.SbtScalariform.autoImport.scalariformPreferences
 import sbt._
 import sbt.plugins.JvmPlugin
 
@@ -13,7 +15,13 @@ object Scalastyle extends AutoPlugin {
 
   override val projectSettings = Seq(
     scalastyleConfigUrl := config(""),
-    scalastyleConfigUrl in Test := config("-test")
+    scalastyleConfigUrl in Test := config("-test"),
+    scalariformPreferences := scalariformPreferences.value
+      .setPreference(AlignSingleLineCaseStatements, true)
+      .setPreference(DoubleIndentConstructorArguments, true)
+      .setPreference(DanglingCloseParenthesis, Preserve)
+      .setPreference(NewlineAtEndOfFile, true)
+      .setPreference(DanglingCloseParenthesis, Force)
   )
 
 }

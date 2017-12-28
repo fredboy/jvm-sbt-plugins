@@ -11,7 +11,7 @@ object MakeScripts extends AutoPlugin {
   override def trigger: PluginTrigger = allRequirements
 
   object Keys {
-    val makeScripts = TaskKey[Unit]("makeScripts")
+    val makeScripts: TaskKey[Unit] = TaskKey[Unit]("makeScripts")
   }
 
   import Keys._

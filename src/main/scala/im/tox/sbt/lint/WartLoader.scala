@@ -63,8 +63,6 @@ object WartLoader extends AutoPlugin {
     Wart.Any,
     // This is too useful to disallow.
     Wart.DefaultArguments,
-    // https://github.com/puffnfresh/wartremover/issues/106
-    Wart.NoNeedForMonad,
     // Scala typechecker deficiencies cause Nothing to be inferred in
     // polymorphic functions.
     Wart.Nothing,
