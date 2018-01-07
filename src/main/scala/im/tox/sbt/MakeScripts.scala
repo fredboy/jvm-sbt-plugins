@@ -25,21 +25,19 @@ object MakeScripts extends AutoPlugin {
     }
   }
 
-  private def makeScriptsTask(base: File, opts: Seq[String], cp: Classpath, mains: Seq[String]) = {
+  private def makeScriptsTask(base: File, cp: Classpath, mains: Seq[String]) = {
     val template =
       """#!/usr/bin/env perl
         |my @CLASSPATH = (
         |  "%s"
         |);
         |exec "java",
-        |  "%s",
         |  "-classpath", (join ":", @CLASSPATH),
         |  "%s", @ARGV
         |""".stripMargin
     for (main <- mains) {
       val contents = template.format(
         cp.files.get.mkString("\",\n  \""),
-        opts.mkString("\",\n  \""),
         main
       )
       val out = base / "bin" / classBaseName(main)
@@ -51,7 +49,6 @@ object MakeScripts extends AutoPlugin {
   override val projectSettings: Seq[Setting[_]] = {
     makeScripts := makeScriptsTask(
       baseDirectory.value,
-      (javaOptions in Test).value,
       (fullClasspath in Test).value,
       (discoveredMainClasses in Test).value
     )
