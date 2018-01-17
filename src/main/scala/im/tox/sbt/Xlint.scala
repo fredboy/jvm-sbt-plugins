@@ -1,4 +1,4 @@
-package im.tox.sbt.lint
+package im.tox.sbt
 
 import sbt.Keys._
 import sbt._

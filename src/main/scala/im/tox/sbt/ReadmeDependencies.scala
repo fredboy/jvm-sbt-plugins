@@ -10,9 +10,6 @@ import org.apache.commons.io.FileUtils
 import sbt.Keys._
 import sbt._
 
-@SuppressWarnings(Array(
-  "org.wartremover.warts.Equals"
-))
 object ReadmeDependencies extends AutoPlugin {
 
   override def trigger: PluginTrigger = allRequirements

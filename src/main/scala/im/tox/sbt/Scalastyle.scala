@@ -1,4 +1,4 @@
-package im.tox.sbt.lint
+package im.tox.sbt
 
 import org.scalastyle.sbt.ScalastylePlugin.autoImport.scalastyleConfigUrl
 import scalariform.formatter.preferences._
