@@ -13,7 +13,7 @@ object BintrayPlugin extends AutoPlugin {
   override def projectSettings: Seq[Setting[_]] = Seq(
     bintrayOrganization := Some("toktok"),
     bintrayVcsUrl := Some("https://github.com/TokTok/jvm-" + name.value),
-    licenses += (("AGPL-V3", url("http://opensource.org/licenses/AGPL-V3")))
+    licenses += (("GPL-3.0", url("https://opensource.org/licenses/GPL-3.0")))
   )
 
 }

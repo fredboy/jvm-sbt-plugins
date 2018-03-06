@@ -1,6 +1,6 @@
 organization  := "org.toktok"
 name          := "sbt-plugins"
-version       := "0.1.4"
+version       := "0.1.5"
 scalaVersion  := "2.10.7"
 
 sbtPlugin := true
