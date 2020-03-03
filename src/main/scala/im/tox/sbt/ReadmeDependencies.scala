@@ -59,8 +59,9 @@ object ReadmeDependencies extends AutoPlugin {
           }
       }
 
-    val compileDepList = FlatList.render(compileDeps, _.id.idString).split("\n").toSet
-    val testDepList = FlatList.render(testDeps, _.id.idString).split("\n").toSet
+    val render = FlatList.render(_.id.idString)_
+    val compileDepList = render(compileDeps).split("\n").toSet
+    val testDepList = render(testDeps).split("\n").toSet
 
     val sections1 = replaceDepList(
       sections0, "compile",

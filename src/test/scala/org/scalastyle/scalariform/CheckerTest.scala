@@ -1,5 +1,6 @@
 package org.scalastyle.scalariform
 
+import collection.JavaConverters._
 import org.scalastyle._
 import org.scalatest.FunSuite
 
@@ -38,7 +39,7 @@ abstract class CheckerTest(checker: Checker[_] { val errorKey: String }) extends
   def assertErrors(count: Int, source: String): Unit = {
     val marker = "!!"
 
-    val expected = source.lines.zipWithIndex.flatMap {
+    val expected = source.lines.iterator.asScala.zipWithIndex.flatMap {
       case (line, lineNumber) =>
         assert(line.indexOf(marker) == line.lastIndexOf(marker), "Currently only one error per line is supported")
         line.indexOf(marker) match {

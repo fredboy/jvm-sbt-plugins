@@ -1,6 +1,6 @@
 organization  := "org.toktok"
 name          := "sbt-plugins"
-version       := "0.1.5"
+version       := "0.1.6"
 scalaVersion  := "2.10.7"
 
 sbtPlugin := true
@@ -9,21 +9,21 @@ resolvers += Classpaths.sbtPluginReleases
 resolvers += Resolver.bintrayRepo("toktok", "maven")
 
 // Code style.
-addSbtPlugin("com.etsy" % "sbt-checkstyle-plugin" % "3.0.0")
+addSbtPlugin("com.etsy" % "sbt-checkstyle-plugin" % "3.1.1")
 addSbtPlugin("org.scalastyle" % "scalastyle-sbt-plugin" % "1.0.0")
 
 // Code formatting.
-addSbtPlugin("org.scalariform" % "sbt-scalariform" % "1.8.2")
+addSbtPlugin("org.scalariform" % "sbt-scalariform" % "1.8.3")
 
 // Test coverage.
-addSbtPlugin("org.scoverage" % "sbt-scoverage" % "1.5.1")
-addSbtPlugin("org.scoverage" % "sbt-coveralls" % "1.2.2")
+addSbtPlugin("org.scoverage" % "sbt-scoverage" % "1.6.1")
+addSbtPlugin("org.scoverage" % "sbt-coveralls" % "1.2.7")
 
 // Publishing to bintray.
 addSbtPlugin("me.lessis" % "bintray-sbt" % "0.3.0")
 
 // For the dependency graph.
-addSbtPlugin("net.virtual-void" % "sbt-dependency-graph" % "0.9.0")
+addSbtPlugin("net.virtual-void" % "sbt-dependency-graph" % "0.10.0-RC1")
 
 // Build dependencies.
 libraryDependencies ++= Seq(
