@@ -1,0 +1,19 @@
+---
+_extends: template
+
+repository:
+  name: jvm-sbt-plugins
+  description: Common SBT plugins for building TokTok projects
+  topics: sbt
+  has_issues: true
+
+branches:
+  - name: "master"
+    protection:
+      required_status_checks:
+        contexts:
+          - Codacy/PR Quality Review
+          - Travis CI - Pull Request
+          - WIP
+          - code-review/reviewable
+          - license/cla
