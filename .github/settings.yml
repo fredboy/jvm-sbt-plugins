@@ -1,5 +1,5 @@
 ---
-_extends: template
+_extends: .github
 
 repository:
   name: jvm-sbt-plugins
@@ -12,8 +12,7 @@ branches:
     protection:
       required_status_checks:
         contexts:
-          - Codacy/PR Quality Review
-          - Travis CI - Pull Request
+          - Codacy Static Code Analysis
           - WIP
           - code-review/reviewable
           - license/cla
