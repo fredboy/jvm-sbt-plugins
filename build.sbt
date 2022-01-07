@@ -6,7 +6,6 @@ scalaVersion  := "2.10.7"
 sbtPlugin := true
 
 resolvers += Classpaths.sbtPluginReleases
-resolvers += Resolver.bintrayRepo("toktok", "maven")
 
 // Code style.
 addSbtPlugin("com.etsy" % "sbt-checkstyle-plugin" % "3.1.1")
