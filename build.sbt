@@ -6,6 +6,10 @@ scalaVersion  := "2.12.17"
 sbtPlugin := true
 
 resolvers += Classpaths.sbtPluginReleases
+resolvers += Resolver.mavenLocal
+
+publishMavenStyle := true
+publishM2Configuration := publishM2Configuration.value.withOverwrite(true)
 
 // Code style.
 addSbtPlugin("com.etsy" % "sbt-checkstyle-plugin" % "3.1.1")
