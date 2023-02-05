@@ -1,7 +1,7 @@
 organization  := "org.toktok"
 name          := "sbt-plugins"
 version       := "0.1.6"
-scalaVersion  := "2.10.7"
+scalaVersion  := "2.12.17"
 
 sbtPlugin := true
 
@@ -15,11 +15,11 @@ addSbtPlugin("org.scalastyle" % "scalastyle-sbt-plugin" % "1.0.0")
 addSbtPlugin("org.scalariform" % "sbt-scalariform" % "1.8.3")
 
 // Test coverage.
-addSbtPlugin("org.scoverage" % "sbt-scoverage" % "1.6.1")
-addSbtPlugin("org.scoverage" % "sbt-coveralls" % "1.2.7")
+addSbtPlugin("org.scoverage" % "sbt-scoverage" % "1.9.3")
+addSbtPlugin("org.scoverage" % "sbt-coveralls" % "1.3.6")
 
 // Publishing to bintray.
-addSbtPlugin("me.lessis" % "bintray-sbt" % "0.3.0")
+addSbtPlugin("org.foundweekends" % "sbt-bintray" % "0.6.1")
 
 // For the dependency graph.
 addSbtPlugin("net.virtual-void" % "sbt-dependency-graph" % "0.10.0-RC1")
